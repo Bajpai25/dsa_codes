@@ -13,6 +13,18 @@ class Node{
         this->data=data;
         this->next=NULL;
     }
+    
+    // creating custom destructor for deleting and releasing memory Node
+    
+    ~Node(){
+        int value=this->data;
+        // memory free 
+        if(this->next!=NULL){
+            delete next;
+            this->next=NULL;
+        }
+        cout<<"deleted node value is :"<<value<<endl;
+    }
 };
     
     // for inserting at first
@@ -58,6 +70,37 @@ class Node{
             tail=temp;
         }
     }
+    
+    void delete_value(int position, Node* &head){
+        // delete at the start position // head
+        
+        
+        if(position==1){
+            Node* temp=head;
+            head=head->next;
+            temp->next=NULL;
+            delete temp;
+        }
+        else{
+        
+        // delete at any position including the last position too
+        Node* curr=head;
+        Node* prev=NULL;
+        int count=1;
+        while(count<position){
+            prev=curr;
+            curr=curr->next;
+            count++;
+        }
+        
+        // deleting the current node too
+        
+        prev->next=curr->next;
+        curr->next=NULL;
+        delete curr;
+        }
+    
+    }
     // print the linked list 
     
     void print(Node* &head){
@@ -87,6 +130,7 @@ int main()
     insert_at_head(head,22);
     insert_at_pos(head,tail,2,23);
     insert_at_pos(head,tail,13,9);
+    delete_value(13,head);
     cout<<head->data<<endl;
     cout<<tail->data<<endl;
      print(head);
